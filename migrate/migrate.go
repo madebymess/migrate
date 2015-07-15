@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattes/migrate/driver"
-	"github.com/mattes/migrate/file"
-	"github.com/mattes/migrate/migrate/direction"
-	pipep "github.com/mattes/migrate/pipe"
+	"github.com/madebymess/migrate/driver"
+	"github.com/madebymess/migrate/file"
+	"github.com/madebymess/migrate/migrate/direction"
+	pipep "github.com/madebymess/migrate/pipe"
 )
 
 // Up applies all available migrations
