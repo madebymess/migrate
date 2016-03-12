@@ -8,6 +8,7 @@ import (
 	"github.com/madebymess/migrate/migrate/direction"
 	"net/url"
 	"strings"
+	"strconv"
 	"time"
 )
 
@@ -44,11 +45,20 @@ const (
 // cassandra://localhost/SpaceOfKeys
 func (driver *Driver) Initialize(rawurl string) error {
 	u, err := url.Parse(rawurl)
-
+	
 	cluster := gocql.NewCluster(u.Host)
 	cluster.Keyspace = u.Path[1:len(u.Path)]
 	cluster.Consistency = gocql.All
 	cluster.Timeout = 1 * time.Minute
+	
+	query := u.Query()
+	if s := query.Get("v"); s != "" {
+		v, err := strconv.ParseInt(s, 10, 32)
+		if err != nil {
+			return err
+		}
+		cluster.ProtoVersion = int(v)
+	}
 
 	// Check if url user struct is null
 	if u.User != nil {
